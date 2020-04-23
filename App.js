@@ -7,10 +7,11 @@
  */
 
 import React from 'react'
-import OnBoardingScreen from './src/screen/onBoardingScreen'
+// import OnBoardingScreen from './src/screen/onBoardingScreen'
+import LoginScreen from './src/screen/loginScreen'
 
 const App = () => {
-  return <OnBoardingScreen />
+  return <LoginScreen />
 }
 
 export default App
