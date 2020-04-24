@@ -9,10 +9,27 @@ import {
   ImageBackground,
   Image,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  FlatList
 } from 'react-native'
 
 class LoginScreen extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      itemInputBox: [
+        {
+          name: 'envelope',
+          placeholder: 'Enter Email'
+        },
+        {
+          name: 'lock',
+          placeholder: 'Enter Password'
+        }
+      ]
+    }
+  }
+
   render () {
     return (
       <View>
@@ -80,7 +97,18 @@ class LoginScreen extends Component {
 
   renderInputBox = () => {
     return (
-      <InputBox />
+      <FlatList
+        data={this.state.itemInputBox}
+        renderItem={({ item, index }) => {
+          return (
+            <InputBox
+              key={index}
+              item={item}
+            />
+          )
+        }}
+        keyExtractor={(item, index) => (`${item}--${index}`)}
+      />
     )
   }
 
@@ -111,7 +139,7 @@ const styles = StyleSheet.create({
   },
   onboarding__logo: {
     alignItems: 'center',
-    marginTop: 80
+    marginTop: 60
   },
   onboarding__lead: {
     alignItems: 'center',
@@ -131,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: 3
   },
   onboarding__form: {
-    marginTop: 50,
+    marginTop: 30,
     marginHorizontal: 30
   },
   onboarding__button: {

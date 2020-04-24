@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   onboarding__logo: {
     alignItems: 'center',
-    marginTop: 80
+    marginTop: 60
   },
   onboarding__hero__container: {
     position: 'absolute',
