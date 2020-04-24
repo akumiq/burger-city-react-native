@@ -103,7 +103,8 @@ class LoginScreen extends Component {
           return (
             <InputBox
               key={index}
-              item={item}
+              name={item.name}
+              placeholder={item.placeholder}
             />
           )
         }}

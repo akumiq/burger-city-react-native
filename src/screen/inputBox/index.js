@@ -4,19 +4,17 @@ import { View, TextInput, StyleSheet } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 const InputBox = (props) => {
-  const { name, placeholder } = props.item
-
   return (
     <View style={styles['container']}>
       <EvilIcons
-        name={name}
+        name={props.name}
         color='#727c8e'
         size={22}
         style={styles['icon']}
       />
 
       <TextInput
-        placeholder={placeholder}
+        placeholder={props.placeholder}
         placeholderTextColor='#727c8e'
         style={styles['input--box']}
       />
@@ -25,7 +23,8 @@ const InputBox = (props) => {
 }
 
 InputBox.propTypes = {
-  item: PropTypes.object
+  name: PropTypes.string,
+  placeholder: PropTypes.string
 }
 
 const styles = StyleSheet.create({
