@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import bgImage from '../../assets/image/background-img.png'
-import burgerImg from '../../assets/icon/burger-logo.png'
 import {
   StyleSheet,
   YellowBox,
@@ -13,6 +11,9 @@ import {
   TouchableHighlight
 } from 'react-native'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
+
+import bgImage from '../../assets/image/background-img.png'
+import burgerImg from '../../assets/icon/burger-logo.png'
 
 class OnBoardingScreen extends Component {
   constructor (props) {
@@ -50,7 +51,10 @@ class OnBoardingScreen extends Component {
 
   renderBackground = () => {
     return (
-      <ImageBackground source={bgImage} style={styles['onboarding__bg']}>
+      <ImageBackground
+        source={bgImage}
+        style={styles['onboarding__bg']}
+      >
         {this.renderOverlay()}
         {this.renderLogo()}
         {this.renderHero()}
@@ -60,12 +64,18 @@ class OnBoardingScreen extends Component {
   }
 
   renderOverlay = () => {
-    return <View style={styles['onboarding__overlay']} />
+    return (
+      <View
+        style={styles['onboarding__overlay']}
+      />
+    )
   }
 
   renderLogo = () => {
     return (
-      <View style={styles['onboarding__logo']}>
+      <View
+        style={styles['onboarding__logo']}
+      >
         <Image source={burgerImg} />
       </View>
     )
@@ -73,7 +83,9 @@ class OnBoardingScreen extends Component {
 
   renderHero = () => {
     return (
-      <View style={styles['onboarding__hero__container']}>
+      <View
+        style={styles['onboarding__hero__container']}
+      >
         {this.renderCarousel()}
         {this.renderCarouselPagination()}
       </View>
@@ -90,15 +102,23 @@ class OnBoardingScreen extends Component {
         decelerationRate="fast"
         sliderWidth={width}
         itemWidth={width}
-        onSnapToItem={index => this.setState({ activeSlide: index })}
+        onSnapToItem={
+          index => this.setState({ activeSlide: index })
+        }
       />
     )
   }
 
   renderCarouselItem = ({ item }) => {
     return (
-      <View style={styles['onboarding__hero__wrapper']}>
-        <Text style={styles['onboarding__hero']}>{item}</Text>
+      <View
+        style={styles['onboarding__hero__wrapper']}
+      >
+        <Text
+          style={styles['onboarding__hero']}
+        >
+          {item}
+        </Text>
       </View>
     )
   }
@@ -110,11 +130,17 @@ class OnBoardingScreen extends Component {
       <Pagination
         dotsLength={hero.length}
         activeDotIndex={activeSlide}
-        dotStyle={styles['onboarding__pagination__dot']}
-        dotContainerStyle={styles['onboarding__pagination__dot__container']}
+        dotStyle={
+          styles['onboarding__pagination__dot']
+        }
+        dotContainerStyle={
+          styles['onboarding__pagination__dot__container']
+        }
         inactiveDotOpacity={0.5}
         inactiveDotScale={1}
-        containerStyle={styles['onboarding__pagination__container']}
+        containerStyle={
+          styles['onboarding__pagination__container']
+        }
       />
     )
   }
@@ -124,8 +150,15 @@ class OnBoardingScreen extends Component {
       <TouchableHighlight
         onPress={() => {}}
         underlayColor="#ED941A"
-        style={styles['onboarding__button']}>
-        <Text style={styles['onboarding__button__text']}>Get Start Here</Text>
+        style={
+          styles['onboarding__button']
+        }
+      >
+        <Text
+          style={styles['onboarding__button__text']}
+        >
+          Get Start Here
+        </Text>
       </TouchableHighlight>
     )
   }

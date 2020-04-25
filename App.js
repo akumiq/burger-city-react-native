@@ -8,10 +8,13 @@
 
 import React from 'react'
 // import OnBoardingScreen from './src/screen/onBoardingScreen'
-import LoginScreen from './src/screen/loginScreen'
+// import LoginScreen from './src/screen/loginScreen'
+import ForgotPasswordScreen from './src/screen/forgotPassword'
 
 const App = () => {
-  return <LoginScreen />
+  // return <OnBoardingScreen />
+  // return <LoginScreen />
+  return <ForgotPasswordScreen />
 }
 
 export default App
