@@ -9,7 +9,6 @@ import {
   ImageBackground,
   Image,
   Text,
-  TouchableHighlight,
   FlatList
 } from 'react-native'
 
@@ -56,7 +55,6 @@ class LoginScreen extends Component {
         {this.renderLogo()}
         {this.renderLead()}
         {this.renderForm()}
-        {this.renderButton()}
       </ImageBackground>
     )
   }
@@ -112,17 +110,6 @@ class LoginScreen extends Component {
       />
     )
   }
-
-  renderButton = () => {
-    return (
-      <TouchableHighlight
-        onPress={() => {}}
-        underlayColor="#ED941A"
-        style={styles['onboarding__button']}>
-        <Text style={styles['onboarding__button__text']}>Log In</Text>
-      </TouchableHighlight>
-    )
-  }
 }
 
 const styles = StyleSheet.create({
@@ -162,20 +149,6 @@ const styles = StyleSheet.create({
   onboarding__form: {
     marginTop: 30,
     marginHorizontal: 30
-  },
-  onboarding__button: {
-    borderRadius: 8,
-    backgroundColor: '#FF9F1C',
-    alignItems: 'center',
-    marginTop: 'auto',
-    marginBottom: 50,
-    marginHorizontal: 30,
-    paddingVertical: 15
-  },
-  onboarding__button__text: {
-    color: '#ffffff',
-    fontFamily: 'Nunito-SemiBold',
-    fontSize: 16
   }
 })
 
