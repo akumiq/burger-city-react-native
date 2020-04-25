@@ -46,7 +46,7 @@ class OnBoardingScreen extends Component {
         backgroundColor="transparent"
       />
     )
-  };
+  }
 
   renderBackground = () => {
     return (
@@ -54,14 +54,14 @@ class OnBoardingScreen extends Component {
         {this.renderOverlay()}
         {this.renderLogo()}
         {this.renderHero()}
-        {this.renderButton()}
+        {this.renderStartButton()}
       </ImageBackground>
     )
-  };
+  }
 
   renderOverlay = () => {
     return <View style={styles['onboarding__overlay']} />
-  };
+  }
 
   renderLogo = () => {
     return (
@@ -69,7 +69,7 @@ class OnBoardingScreen extends Component {
         <Image source={burgerImg} />
       </View>
     )
-  };
+  }
 
   renderHero = () => {
     return (
@@ -78,7 +78,7 @@ class OnBoardingScreen extends Component {
         {this.renderCarouselPagination()}
       </View>
     )
-  };
+  }
 
   renderCarousel = () => {
     const { width } = Dimensions.get('window')
@@ -93,7 +93,7 @@ class OnBoardingScreen extends Component {
         onSnapToItem={index => this.setState({ activeSlide: index })}
       />
     )
-  };
+  }
 
   renderCarouselItem = ({ item }) => {
     return (
@@ -101,7 +101,7 @@ class OnBoardingScreen extends Component {
         <Text style={styles['onboarding__hero']}>{item}</Text>
       </View>
     )
-  };
+  }
 
   renderCarouselPagination = () => {
     const { hero, activeSlide } = this.state
@@ -117,9 +117,9 @@ class OnBoardingScreen extends Component {
         containerStyle={styles['onboarding__pagination__container']}
       />
     )
-  };
+  }
 
-  renderButton = () => {
+  renderStartButton = () => {
     return (
       <TouchableHighlight
         onPress={() => {}}
@@ -128,7 +128,7 @@ class OnBoardingScreen extends Component {
         <Text style={styles['onboarding__button__text']}>Get Start Here</Text>
       </TouchableHighlight>
     )
-  };
+  }
 }
 
 const styles = StyleSheet.create({
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   onboarding__logo: {
     alignItems: 'center',
-    marginTop: 60
+    marginTop: 80
   },
   onboarding__hero__container: {
     position: 'absolute',

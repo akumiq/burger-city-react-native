@@ -1,30 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View, TextInput, StyleSheet } from 'react-native'
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 const InputBox = (props) => {
   return (
-    <View style={styles['container']}>
-      <EvilIcons
-        name={props.name}
-        color='#727c8e'
-        size={22}
-        style={styles['icon']}
+    <View
+      style={[
+        props.containerStyle,
+        styles['container']
+      ]}>
+      <props.icon.type
+        name={props.icon.name}
+        color={props.icon.color}
+        size={props.icon.size}
+        style={props.icon.style}
       />
 
       <TextInput
         placeholder={props.placeholder}
         placeholderTextColor='#727c8e'
         style={styles['input--box']}
+        secureTextEntry={props.password}
       />
     </View>
   )
 }
 
 InputBox.propTypes = {
-  name: PropTypes.string,
-  placeholder: PropTypes.string
+  icon: PropTypes.object,
+  placeholder: PropTypes.string,
+  password: PropTypes.bool,
+  containerStyle: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ])
 }
 
 const styles = StyleSheet.create({
@@ -33,12 +42,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-    marginBottom: 15
-  },
-  icon: {
-    marginRight: 10,
-    marginLeft: 20
+    backgroundColor: '#ffffff'
   },
   'input--box': {
     flex: 1,
