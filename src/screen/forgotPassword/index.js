@@ -150,7 +150,9 @@ class ForgotPasswordScreen extends Component {
   renderInputBox = () => {
     return (
       <FlatList
-        keyExtractor={(item, index) => item + index.toString()}
+        keyExtractor={
+          (item, index) => item + index.toString()
+        }
         data={this.state.inputBoxArr}
         renderItem={({ item, index }) => (
           <InputBox password={index === 1} {...item}/>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   YellowBox,
@@ -15,7 +16,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 import bgImage from '../../assets/image/background-img.png'
 import burgerImg from '../../assets/icon/burger-logo.png'
 
-class OnBoardingScreen extends Component {
+class OnboardingScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -148,11 +149,9 @@ class OnBoardingScreen extends Component {
   renderStartButton = () => {
     return (
       <TouchableHighlight
-        onPress={() => {}}
         underlayColor="#ED941A"
-        style={
-          styles['onboarding__button']
-        }
+        style={styles['onboarding__button']}
+        onPress={this.onStartHere}
       >
         <Text
           style={styles['onboarding__button__text']}
@@ -162,6 +161,14 @@ class OnBoardingScreen extends Component {
       </TouchableHighlight>
     )
   }
+
+  onStartHere = () => {
+    this.props.navigation.navigate('LoginScreen')
+  }
+}
+
+OnboardingScreen.propTypes = {
+  navigation: PropTypes.object
 }
 
 const styles = StyleSheet.create({
@@ -228,4 +235,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default OnBoardingScreen
+export default OnboardingScreen

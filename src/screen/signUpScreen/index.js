@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
@@ -8,19 +7,16 @@ import {
   Image,
   Text,
   FlatList,
-  TouchableHighlight,
-  TouchableOpacity
+  TouchableHighlight
 } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import CheckBox from 'react-native-check-box'
 
 import InputBox from '../inputBox'
 
 import bgImage from '../../assets/image/background-img.png'
 import burgerImg from '../../assets/icon/burger-logo.png'
 
-class LoginScreen extends Component {
+class SignUpScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -48,6 +44,20 @@ class LoginScreen extends Component {
             ]
           },
           placeholder: 'Password',
+          containerStyle: { marginTop: 17 }
+        },
+        {
+          icon: {
+            type: EvilIcons,
+            name: 'lock',
+            color: '#727c8e',
+            size: 25,
+            style: [
+              styles['onboarding__input__icon'],
+              { marginLeft: 18 }
+            ]
+          },
+          placeholder: 'Confirm Password',
           containerStyle: { marginTop: 17 }
         }
       ],
@@ -84,7 +94,6 @@ class LoginScreen extends Component {
         {this.renderLogo()}
         {this.renderLead()}
         {this.renderForm()}
-        {this.renderFooter()}
       </ImageBackground>
     )
   }
@@ -121,7 +130,7 @@ class LoginScreen extends Component {
         <Text
           style={styles['onboarding__lead--p']}
         >
-          Login to continue Burger City
+          Sign Up to continue Burger City
         </Text>
       </View>
     )
@@ -133,9 +142,7 @@ class LoginScreen extends Component {
         style={styles['onboarding__form']}
       >
         {this.renderInputBox()}
-        {this.renderOption()}
-        {this.renderSubmitButton()}
-        {this.renderSignUp()}
+        {this.renderSignUpButton()}
       </View>
     )
   }
@@ -154,71 +161,7 @@ class LoginScreen extends Component {
     )
   }
 
-  renderOption = () => {
-    return (
-      <View
-        style={styles['onboarding__option']}
-      >
-        {this.renderOptRememberMe()}
-        {this.renderOptForgotPassword()}
-      </View>
-    )
-  }
-
-  renderOptRememberMe = () => {
-    const { isChecked } = this.state
-
-    return (
-      <CheckBox
-        style={{ flex: 1 }}
-        isChecked={isChecked}
-        rightText='Remember Me'
-        rightTextStyle={styles['onboarding__option__text']}
-        checkBoxColor='#ffffff'
-        unCheckedImage={
-          <MaterialIcons
-            name='radio-button-unchecked'
-            color='#ffffff'
-            size={20}
-          />
-        }
-        checkedImage={
-          <MaterialIcons
-            name='check-circle'
-            color='#ffffff'
-            size={20}
-          />
-        }
-        onClick={this.onRememberMe}
-      />
-    )
-  }
-
-  onRememberMe = () => {
-    this.setState(prevState => ({
-      isChecked: !prevState.isChecked
-    }))
-  }
-
-  renderOptForgotPassword = () => {
-    return (
-      <TouchableHighlight
-        onPress={this.onForgotPassword}
-      >
-        <Text
-          style={styles['onboarding__option__text']}
-        >
-          Forgot Password?
-        </Text>
-      </TouchableHighlight>
-    )
-  }
-
-  onForgotPassword = () => {
-    this.props.navigation.navigate('ForgotPasswordScreen')
-  }
-
-  renderSubmitButton = () => {
+  renderSignUpButton = () => {
     return (
       <TouchableHighlight
         onPress={() => {}}
@@ -228,54 +171,11 @@ class LoginScreen extends Component {
         <Text
           style={styles['onboarding__button__text']}
         >
-          Log In
+          Sign Up
         </Text>
       </TouchableHighlight>
     )
   }
-
-  renderSignUp = () => {
-    return (
-      <TouchableOpacity
-        style={styles['onboarding__sign-up']}
-        onPress={this.onSignUp}
-      >
-        <Text
-          style={styles['onboarding__sign-up__text']}
-        >
-          New User? Sign up
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-
-  onSignUp = () => {
-    this.props.navigation.navigate('SignUpScreen')
-  }
-
-  renderFooter = () => {
-    return (
-      <View
-        style={styles['onboarding__footer']}
-      >
-        <Text
-          style={styles['onboarding__footer__text']}
-        >
-          By signing up you indicate that you have read and agreed to the Patch&nbsp;
-
-          <Text
-            style={styles['onboarding__footer__text--underline']}
-          >
-            Terms of Service
-          </Text>
-        </Text>
-      </View>
-    )
-  }
-}
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.object
 }
 
 const styles = StyleSheet.create({
@@ -320,57 +220,19 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 20
   },
-  onboarding__option: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 15
-  },
-  onboarding__option__text: {
-    fontFamily: 'Nunito-Regular',
-    fontSize: 12,
-    color: '#ffffff',
-    includeFontPadding: false,
-    marginLeft: 5
-  },
   onboarding__button: {
     borderRadius: 8,
     backgroundColor: '#FF9F1C',
     alignItems: 'center',
     paddingVertical: 15,
-    marginTop: 15
+    marginTop: 50
   },
   onboarding__button__text: {
     color: '#ffffff',
     fontFamily: 'Nunito-Black',
     fontSize: 16,
     includeFontPadding: false
-  },
-  'onboarding__sign-up': {
-    alignItems: 'center',
-    marginTop: 20
-  },
-  'onboarding__sign-up__text': {
-    fontFamily: 'Nunito-SemiBold',
-    fontSize: 13,
-    color: '#ff9f1c',
-    includeFontPadding: false
-  },
-  onboarding__footer: {
-    marginTop: 35,
-    alignItems: 'center'
-  },
-  onboarding__footer__text: {
-    fontFamily: 'Nunito-Regular',
-    fontSize: 10,
-    color: '#ffffff',
-    width: 250,
-    textAlign: 'center',
-    includeFontPadding: false
-  },
-  'onboarding__footer__text--underline': {
-    textDecorationLine: 'underline'
   }
 })
 
-export default LoginScreen
+export default SignUpScreen
