@@ -10,6 +10,7 @@ import {
   TouchableHighlight
 } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 import InputBox from '../inputBox'
 
@@ -20,49 +21,24 @@ class ForgotPasswordScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputBoxArr: [
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'envelope',
-            color: '#727c8e',
-            size: 22,
-            style: styles['onboarding__input__icon']
-          },
-          placeholder: 'Email Address',
-          containerStyle: {}
-        },
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'lock',
-            color: '#727c8e',
-            size: 25,
-            style: [
-              styles['onboarding__input__icon'],
-              { marginLeft: 18 }
-            ]
-          },
-          placeholder: 'New Password',
-          containerStyle: { marginTop: 17 }
-        },
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'lock',
-            color: '#727c8e',
-            size: 25,
-            style: [
-              styles['onboarding__input__icon'],
-              { marginLeft: 18 }
-            ]
-          },
-          placeholder: 'Confirm Password',
-          containerStyle: { marginTop: 17 }
-        }
-      ],
-      isChecked: false
+      isChecked: false,
+      data: {
+        email: '',
+        newPassword: '',
+        confirmPassword: '',
+        otp: ''
+      },
+      indentifier: 'create-new-password'
     }
+  }
+
+  onHandleInput = (key, value) => {
+    this.setState(prevState => ({
+      data: {
+        ...prevState.data,
+        [key]: value
+      }
+    }))
   }
 
   render () {
@@ -117,6 +93,14 @@ class ForgotPasswordScreen extends Component {
   }
 
   renderLead = () => {
+    const { indentifier } = this.state
+
+    const subLead = indentifier === 'create-new-password'
+      ? 'Please enter a new password and confirm the password'
+      : indentifier === 'insert-otp'
+        ? 'For your security, a one time password has been sent to your email address. Please enter it below to continue'
+        : 'Custom subLead'
+
     return (
       <View
         style={styles['onboarding__lead']}
@@ -130,7 +114,7 @@ class ForgotPasswordScreen extends Component {
         <Text
           style={styles['onboarding__lead--p']}
         >
-          Please enter a new password and confirm the password
+          {subLead}
         </Text>
       </View>
     )
@@ -148,33 +132,147 @@ class ForgotPasswordScreen extends Component {
   }
 
   renderInputBox = () => {
+    const { indentifier } = this.state
+
+    const formInputNewPassword = [
+      {
+        name: 'email',
+        icon: {
+          type: EvilIcons,
+          name: 'envelope',
+          color: '#727c8e',
+          size: 22,
+          style: styles['onboarding__input__icon']
+        },
+        placeholder: 'Email Address',
+        containerStyle: {}
+      },
+      {
+        name: 'newPassword',
+        icon: {
+          type: EvilIcons,
+          name: 'lock',
+          color: '#727c8e',
+          size: 25,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginLeft: 18 }
+          ]
+        },
+        placeholder: 'New Password',
+        containerStyle: { marginTop: 17 }
+      },
+      {
+        name: 'confirmPassword',
+        icon: {
+          type: EvilIcons,
+          name: 'lock',
+          color: '#727c8e',
+          size: 25,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginLeft: 18 }
+          ]
+        },
+        placeholder: 'Confirm Password',
+        containerStyle: { marginTop: 17 }
+      }
+    ]
+
+    const formInputOTP = [
+      {
+        name: 'otp',
+        icon: {
+          type: FontAwesome5,
+          name: 'clipboard-check',
+          color: '#727c8e',
+          size: 18,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginTop: -2 }
+          ]
+        },
+        placeholder: 'OTP',
+        containerStyle: {}
+      }
+    ]
+
+    const inputBox = indentifier === 'create-new-password'
+      ? formInputNewPassword
+      : indentifier === 'insert-otp'
+        ? formInputOTP
+        : []
+
     return (
       <FlatList
         keyExtractor={
           (item, index) => item + index.toString()
         }
-        data={this.state.inputBoxArr}
+        data={inputBox}
         renderItem={({ item, index }) => (
-          <InputBox password={index === 1} {...item}/>
+          <InputBox
+            password={index > 0}
+            onHandleInput={this.onHandleInput}
+            {...item}
+          />
         )}
       />
     )
   }
 
   renderSubmitButton = () => {
+    const { data, indentifier } = this.state
+
+    const disabled = !data.email || !data.newPassword || !data.confirmPassword
+
+    const buttonStyle = disabled
+      ? [
+        styles['onboarding__button'],
+        styles['onboarding__button--inactive']
+      ]
+      : [
+        styles['onboarding__button'],
+        styles['onboarding__button--active']
+      ]
+
+    const titleStyle = disabled
+      ? [
+        styles['onboarding__button__text'],
+        styles['onboarding__button__text--inactive']
+      ]
+      : [
+        styles['onboarding__button__text'],
+        styles['onboarding__button__text--active']
+      ]
+
+    const titleBtn = indentifier === 'create-new-password'
+      ? 'Submit'
+      : indentifier === 'insert-otp'
+        ? 'Proceed'
+        : 'Custom Text'
+
     return (
       <TouchableHighlight
-        onPress={() => {}}
+        onPress={this.onSubmit}
         underlayColor="#ED941A"
-        style={styles['onboarding__button']}
+        disabled={disabled}
+        style={buttonStyle}
       >
         <Text
-          style={styles['onboarding__button__text']}
+          style={titleStyle}
         >
-          Submit
+          {titleBtn}
         </Text>
       </TouchableHighlight>
     )
+  }
+
+  onSubmit = () => {
+    const { indentifier } = this.state
+
+    if (indentifier === 'create-new-password') {
+      this.setState({ indentifier: 'insert-otp' })
+    }
   }
 }
 
@@ -207,11 +305,11 @@ const styles = StyleSheet.create({
   },
   'onboarding__lead--p': {
     fontFamily: 'Nunito-SemiBold',
-    fontSize: 18,
+    fontSize: 15,
     color: '#ffffff',
     includeFontPadding: false,
     textAlign: 'center',
-    width: 250,
+    width: 300,
     marginTop: 3
   },
   onboarding__form: {
@@ -224,16 +322,28 @@ const styles = StyleSheet.create({
   },
   onboarding__button: {
     borderRadius: 8,
-    backgroundColor: '#FF9F1C',
     alignItems: 'center',
     paddingVertical: 15,
     marginTop: 50
   },
+  'onboarding__button--active': {
+    backgroundColor: '#FF9F1C'
+  },
+  'onboarding__button--inactive': {
+    borderWidth: 1,
+    borderColor: '#FF9F1C',
+    backgroundColor: 'transparent'
+  },
   onboarding__button__text: {
-    color: '#ffffff',
     fontFamily: 'Nunito-Black',
     fontSize: 16,
     includeFontPadding: false
+  },
+  'onboarding__button__text--active': {
+    color: '#ffffff'
+  },
+  'onboarding__button__text--inactive': {
+    color: '#FF9F1C'
   }
 })
 
