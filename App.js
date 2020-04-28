@@ -8,7 +8,7 @@
 
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
 import OnboardingScreen from './src/screen/onBoardingScreen'
 import LoginScreen from './src/screen/loginScreen'
@@ -22,7 +22,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='OnboardingScreen'
-        screenOptions={{ headerShown: false }}
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS
+        }}
       >
         <Stack.Screen
           name='OnboardingScreen'

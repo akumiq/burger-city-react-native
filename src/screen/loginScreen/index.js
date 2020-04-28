@@ -15,7 +15,8 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CheckBox from 'react-native-check-box'
 
-import InputBox from '../inputBox'
+import InputBox from '../../component/inputBox'
+import CustomButton from '../../component/customButton'
 
 import bgImage from '../../assets/image/background-img.png'
 import burgerImg from '../../assets/icon/burger-logo.png'
@@ -24,35 +25,21 @@ class LoginScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputBoxArr: [
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'envelope',
-            color: '#727c8e',
-            size: 22,
-            style: styles['onboarding__input__icon']
-          },
-          placeholder: 'Email Address',
-          containerStyle: {}
-        },
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'lock',
-            color: '#727c8e',
-            size: 25,
-            style: [
-              styles['onboarding__input__icon'],
-              { marginLeft: 18 }
-            ]
-          },
-          placeholder: 'Password',
-          containerStyle: { marginTop: 17 }
-        }
-      ],
-      isChecked: false
+      isChecked: false,
+      data: {
+        email: '',
+        password: ''
+      }
     }
+  }
+
+  onHandleInput = (key, value) => {
+    this.setState(prevState => ({
+      data: {
+        ...prevState.data,
+        [key]: value
+      }
+    }))
   }
 
   render () {
@@ -134,21 +121,58 @@ class LoginScreen extends Component {
       >
         {this.renderInputBox()}
         {this.renderOption()}
-        {this.renderSubmitButton()}
+        {this.renderLoginButton()}
         {this.renderSignUp()}
       </View>
     )
   }
 
   renderInputBox = () => {
+    const { data } = this.state
+
+    const inputBoxArr = [
+      {
+        name: 'email',
+        icon: {
+          type: EvilIcons,
+          name: 'envelope',
+          color: '#727c8e',
+          size: 22,
+          style: styles['onboarding__input__icon']
+        },
+        placeholder: 'Email Address',
+        containerStyle: {}
+      },
+      {
+        name: 'password',
+        icon: {
+          type: EvilIcons,
+          name: 'lock',
+          color: '#727c8e',
+          size: 25,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginLeft: 18 }
+          ]
+        },
+        placeholder: 'Password',
+        containerStyle: { marginTop: 17 }
+      }
+    ]
+
     return (
       <FlatList
         keyExtractor={
           (item, index) => item + index.toString()
         }
-        data={this.state.inputBoxArr}
+        data={inputBoxArr}
         renderItem={({ item, index }) => (
-          <InputBox password={index === 1} {...item}/>
+          <InputBox
+            password={index === 1}
+            value={data[item.name]}
+            onHandleInput={this.onHandleInput}
+            {...item}
+          />
         )}
       />
     )
@@ -218,20 +242,28 @@ class LoginScreen extends Component {
     this.props.navigation.navigate('ForgotPasswordScreen')
   }
 
-  renderSubmitButton = () => {
+  renderLoginButton = () => {
+    const { data } = this.state
+
+    const disabled = !data.email || !data.password
+
     return (
-      <TouchableHighlight
-        onPress={() => {}}
-        underlayColor="#ED941A"
-        style={styles['onboarding__button']}
-      >
-        <Text
-          style={styles['onboarding__button__text']}
-        >
-          Log In
-        </Text>
-      </TouchableHighlight>
+      <CustomButton
+        titleButton='Log In'
+        disabled={disabled}
+        buttonStyle={{ marginTop: 15 }}
+        onPress={this.onLogin}
+      />
     )
+  }
+
+  onLogin = () => {
+    this.setState({
+      data: {
+        email: '',
+        password: ''
+      }
+    })
   }
 
   renderSignUp = () => {
@@ -332,19 +364,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     includeFontPadding: false,
     marginLeft: 5
-  },
-  onboarding__button: {
-    borderRadius: 8,
-    backgroundColor: '#FF9F1C',
-    alignItems: 'center',
-    paddingVertical: 15,
-    marginTop: 15
-  },
-  onboarding__button__text: {
-    color: '#ffffff',
-    fontFamily: 'Nunito-Black',
-    fontSize: 16,
-    includeFontPadding: false
   },
   'onboarding__sign-up': {
     alignItems: 'center',

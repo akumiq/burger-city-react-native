@@ -6,12 +6,12 @@ import {
   ImageBackground,
   Image,
   Text,
-  FlatList,
-  TouchableHighlight
+  FlatList
 } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
-import InputBox from '../inputBox'
+import InputBox from '../../component/inputBox'
+import CustomButton from '../../component/customButton'
 
 import bgImage from '../../assets/image/background-img.png'
 import burgerImg from '../../assets/icon/burger-logo.png'
@@ -20,49 +20,22 @@ class SignUpScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputBoxArr: [
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'envelope',
-            color: '#727c8e',
-            size: 22,
-            style: styles['onboarding__input__icon']
-          },
-          placeholder: 'Email Address',
-          containerStyle: {}
-        },
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'lock',
-            color: '#727c8e',
-            size: 25,
-            style: [
-              styles['onboarding__input__icon'],
-              { marginLeft: 18 }
-            ]
-          },
-          placeholder: 'Password',
-          containerStyle: { marginTop: 17 }
-        },
-        {
-          icon: {
-            type: EvilIcons,
-            name: 'lock',
-            color: '#727c8e',
-            size: 25,
-            style: [
-              styles['onboarding__input__icon'],
-              { marginLeft: 18 }
-            ]
-          },
-          placeholder: 'Confirm Password',
-          containerStyle: { marginTop: 17 }
-        }
-      ],
-      isChecked: false
+      isChecked: false,
+      data: {
+        email: '',
+        newPassword: '',
+        confirmPassword: ''
+      }
     }
+  }
+
+  onHandleInput = (key, value) => {
+    this.setState(prevState => ({
+      data: {
+        ...prevState.data,
+        [key]: value
+      }
+    }))
   }
 
   render () {
@@ -148,32 +121,79 @@ class SignUpScreen extends Component {
   }
 
   renderInputBox = () => {
+    const inputBoxArr = [
+      {
+        name: 'email',
+        icon: {
+          type: EvilIcons,
+          name: 'envelope',
+          color: '#727c8e',
+          size: 22,
+          style: styles['onboarding__input__icon']
+        },
+        placeholder: 'Email Address',
+        containerStyle: {}
+      },
+      {
+        name: 'newPassword',
+        icon: {
+          type: EvilIcons,
+          name: 'lock',
+          color: '#727c8e',
+          size: 25,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginLeft: 18 }
+          ]
+        },
+        placeholder: 'New Password',
+        containerStyle: { marginTop: 17 }
+      },
+      {
+        name: 'confirmPassword',
+        icon: {
+          type: EvilIcons,
+          name: 'lock',
+          color: '#727c8e',
+          size: 25,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginLeft: 18 }
+          ]
+        },
+        placeholder: 'Confirm Password',
+        containerStyle: { marginTop: 17 }
+      }
+    ]
+
     return (
       <FlatList
         keyExtractor={
           (item, index) => item + index.toString()
         }
-        data={this.state.inputBoxArr}
+        data={inputBoxArr}
         renderItem={({ item, index }) => (
-          <InputBox password={index === 1} {...item}/>
+          <InputBox
+            password={index > 0}
+            onHandleInput={this.onHandleInput}
+            {...item}
+          />
         )}
       />
     )
   }
 
   renderSignUpButton = () => {
+    const { data } = this.state
+
+    const disabled = !data.email || !data.newPassword || !data.confirmPassword
+
     return (
-      <TouchableHighlight
+      <CustomButton
+        titleButton='Sign Up'
+        disabled={disabled}
         onPress={() => {}}
-        underlayColor="#ED941A"
-        style={styles['onboarding__button']}
-      >
-        <Text
-          style={styles['onboarding__button__text']}
-        >
-          Sign Up
-        </Text>
-      </TouchableHighlight>
+      />
     )
   }
 }
@@ -219,19 +239,6 @@ const styles = StyleSheet.create({
   onboarding__input__icon: {
     marginRight: 10,
     marginLeft: 20
-  },
-  onboarding__button: {
-    borderRadius: 8,
-    backgroundColor: '#FF9F1C',
-    alignItems: 'center',
-    paddingVertical: 15,
-    marginTop: 50
-  },
-  onboarding__button__text: {
-    color: '#ffffff',
-    fontFamily: 'Nunito-Black',
-    fontSize: 16,
-    includeFontPadding: false
   }
 })
 

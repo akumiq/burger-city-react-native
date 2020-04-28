@@ -19,8 +19,9 @@ const InputBox = (props) => {
       <TextInput
         placeholder={props.placeholder}
         placeholderTextColor='#727c8e'
-        style={styles['input--box']}
         secureTextEntry={props.password}
+        value={props.value}
+        style={styles['input--box']}
         onChangeText={
           (value) => props.onHandleInput(props.name, value)
         }
@@ -33,9 +34,9 @@ InputBox.propTypes = {
   icon: PropTypes.object,
   placeholder: PropTypes.string,
   password: PropTypes.bool,
+  value: PropTypes.string,
   onHandleInput: PropTypes.func,
   name: PropTypes.string,
-  value: PropTypes.object,
   containerStyle: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array

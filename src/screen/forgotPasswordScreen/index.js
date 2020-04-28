@@ -6,13 +6,13 @@ import {
   ImageBackground,
   Image,
   Text,
-  FlatList,
-  TouchableHighlight
+  FlatList
 } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
-import InputBox from '../inputBox'
+import InputBox from '../../component/inputBox'
+import CustomButton from '../../component/customButton'
 
 import bgImage from '../../assets/image/background-img.png'
 import burgerImg from '../../assets/icon/burger-logo.png'
@@ -225,26 +225,6 @@ class ForgotPasswordScreen extends Component {
 
     const disabled = !data.email || !data.newPassword || !data.confirmPassword
 
-    const buttonStyle = disabled
-      ? [
-        styles['onboarding__button'],
-        styles['onboarding__button--inactive']
-      ]
-      : [
-        styles['onboarding__button'],
-        styles['onboarding__button--active']
-      ]
-
-    const titleStyle = disabled
-      ? [
-        styles['onboarding__button__text'],
-        styles['onboarding__button__text--inactive']
-      ]
-      : [
-        styles['onboarding__button__text'],
-        styles['onboarding__button__text--active']
-      ]
-
     const titleBtn = indentifier === 'create-new-password'
       ? 'Submit'
       : indentifier === 'insert-otp'
@@ -252,18 +232,11 @@ class ForgotPasswordScreen extends Component {
         : 'Custom Text'
 
     return (
-      <TouchableHighlight
-        onPress={this.onSubmit}
-        underlayColor="#ED941A"
+      <CustomButton
+        titleButton={titleBtn}
         disabled={disabled}
-        style={buttonStyle}
-      >
-        <Text
-          style={titleStyle}
-        >
-          {titleBtn}
-        </Text>
-      </TouchableHighlight>
+        onPress={this.onSubmit}
+      />
     )
   }
 
@@ -319,31 +292,6 @@ const styles = StyleSheet.create({
   onboarding__input__icon: {
     marginRight: 10,
     marginLeft: 20
-  },
-  onboarding__button: {
-    borderRadius: 8,
-    alignItems: 'center',
-    paddingVertical: 15,
-    marginTop: 50
-  },
-  'onboarding__button--active': {
-    backgroundColor: '#FF9F1C'
-  },
-  'onboarding__button--inactive': {
-    borderWidth: 1,
-    borderColor: '#FF9F1C',
-    backgroundColor: 'transparent'
-  },
-  onboarding__button__text: {
-    fontFamily: 'Nunito-Black',
-    fontSize: 16,
-    includeFontPadding: false
-  },
-  'onboarding__button__text--active': {
-    color: '#ffffff'
-  },
-  'onboarding__button__text--inactive': {
-    color: '#FF9F1C'
   }
 })
 
