@@ -9,19 +9,23 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { YellowBox } from 'react-native'
 
 import OnboardingScreen from './src/screen/onBoardingScreen'
 import LoginScreen from './src/screen/loginScreen'
 import ForgotPasswordScreen from './src/screen/forgotPasswordScreen'
 import SignUpScreen from './src/screen/signUpScreen'
+import HomeScreen from './src/screen/homeScreen'
 
 const Stack = createStackNavigator()
 
 const App = () => {
+  YellowBox.ignoreWarnings(['FlatList: Calling `getNode()`'])
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='OnboardingScreen'
+        initialRouteName='HomeScreen'
         screenOptions={{
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS
@@ -45,6 +49,11 @@ const App = () => {
         <Stack.Screen
           name='SignUpScreen'
           component={SignUpScreen}
+        />
+
+        <Stack.Screen
+          name='HomeScreen'
+          component={HomeScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

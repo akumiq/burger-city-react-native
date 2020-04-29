@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  YellowBox,
   View,
   StatusBar,
   ImageBackground,
@@ -27,8 +26,6 @@ class OnboardingScreen extends Component {
       ],
       activeSlide: 0
     }
-
-    YellowBox.ignoreWarnings(['FlatList: Calling `getNode()`'])
   }
 
   render () {

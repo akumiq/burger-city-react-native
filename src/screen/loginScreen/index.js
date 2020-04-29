@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
   TouchableOpacity
 } from 'react-native'
+
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CheckBox from 'react-native-check-box'
@@ -264,6 +265,8 @@ class LoginScreen extends Component {
         password: ''
       }
     })
+
+    this.props.navigation.navigate('HomeScreen')
   }
 
   renderSignUp = () => {

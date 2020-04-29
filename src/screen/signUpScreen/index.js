@@ -8,6 +8,7 @@ import {
   Text,
   FlatList
 } from 'react-native'
+
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 import InputBox from '../../component/inputBox'
@@ -23,7 +24,7 @@ class SignUpScreen extends Component {
       isChecked: false,
       data: {
         email: '',
-        newPassword: '',
+        password: '',
         confirmPassword: ''
       }
     }
@@ -135,7 +136,7 @@ class SignUpScreen extends Component {
         containerStyle: {}
       },
       {
-        name: 'newPassword',
+        name: 'password',
         icon: {
           type: EvilIcons,
           name: 'lock',
@@ -146,7 +147,7 @@ class SignUpScreen extends Component {
             { marginLeft: 18 }
           ]
         },
-        placeholder: 'New Password',
+        placeholder: 'Password',
         containerStyle: { marginTop: 17 }
       },
       {
@@ -186,7 +187,7 @@ class SignUpScreen extends Component {
   renderSignUpButton = () => {
     const { data } = this.state
 
-    const disabled = !data.email || !data.newPassword || !data.confirmPassword
+    const disabled = !data.email || !data.password || !data.confirmPassword
 
     return (
       <CustomButton

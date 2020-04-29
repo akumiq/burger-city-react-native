@@ -8,6 +8,7 @@ import {
   Text,
   FlatList
 } from 'react-native'
+
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
