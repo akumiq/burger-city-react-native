@@ -15,6 +15,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 
 import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import StarRating from 'react-native-star-rating/StarRating'
 
 import burgerLogo from '../../assets/icon/burger-logo.png'
 import logo from '../../assets/icon/logo.png'
@@ -227,11 +228,33 @@ export default class HomeScreen extends Component {
 
   renderBestOfferItem = ({ item }) => {
     return (
-      <Image
-        source={item.image}
-        resizeMode='contain'
-        style={styles['home__best-offer__image']}
-      />
+      <View>
+        <Image
+          source={item.image}
+          resizeMode='contain'
+          style={styles['home__best-offer__image']}
+        />
+
+        <View style={styles['home__best-offer__info']}>
+          <Text style={styles['home__best-offer__name']}>
+            Beef Burger
+          </Text>
+          <Text style={styles['home__best-offer__price']}>
+            $12
+          </Text>
+        </View>
+
+        <StarRating
+          disabled
+          maxStars={5}
+          rating={3}
+          starSize={10}
+          fullStarColor='#ff9f1c'
+          emptyStar='star'
+          emptyStarColor='#cecece'
+          containerStyle={styles['home__best-offer__rate']}
+        />
+      </View>
     )
   }
 }
@@ -343,5 +366,29 @@ const styles = StyleSheet.create({
   },
   'home__best-offer__image': {
     marginHorizontal: 7
+  },
+  'home__best-offer__info': {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 15,
+    marginHorizontal: 10
+  },
+  'home__best-offer__name': {
+    fontFamily: 'Nunito-Regular',
+    fontSize: 14,
+    color: '#1d2126',
+    includeFontPadding: false
+  },
+  'home__best-offer__price': {
+    fontFamily: 'Nunito-Bold',
+    fontSize: 12,
+    color: '#ff9f1c',
+    includeFontPadding: false
+  },
+  'home__best-offer__rate': {
+    marginTop: 5,
+    marginLeft: 10,
+    paddingRight: 60
   }
 })
