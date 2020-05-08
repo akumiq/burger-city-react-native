@@ -266,7 +266,7 @@ class LoginScreen extends Component {
       }
     })
 
-    this.props.navigation.navigate('HomeScreen')
+    this.props.navigation.navigate('HomeTab')
   }
 
   renderSignUp = () => {
