@@ -3,9 +3,11 @@
   "parser": "babel-eslint",
   "extends": [
     "standard",
+    "standard-react",
     "plugin:react/recommended"
   ],
   "rules": {
-    "dot-notation": "off"
+    "dot-notation": "off",
+    "react/jsx-handler-names": "off"
   }
 }
