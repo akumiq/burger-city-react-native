@@ -22,11 +22,16 @@ import FavoriteScreen from './src/screen/favoriteScreen'
 import TrackOrderScreen from './src/screen/trackOrderScreen'
 import WalletScreen from './src/screen/walletScreen'
 
-import HomeIcon from './src/assets/icon/home-icon.svg'
-import OurBurgerIcon from './src/assets/icon/our-burger-icon.svg'
-import FavoriteIcon from './src/assets/icon/star-icon.svg'
-import TrackOrderIcon from './src/assets/icon/track-icon.svg'
-import WalletIcon from './src/assets/icon/wallet-icon.svg'
+import HomeIconInactive from './src/assets/icon/home-icon.svg'
+import HomeIconActive from './src/assets/icon/home-icon-active.svg'
+import OurBurgersIconInactive from './src/assets/icon/our-burger-icon.svg'
+import OurBurgersIconActive from './src/assets/icon/our-burger-icon-active.svg'
+import FavouritesIconInactive from './src/assets/icon/star-icon.svg'
+import FavouritesIconActive from './src/assets/icon/star-icon-active.svg'
+import TrackOrdersIconInactive from './src/assets/icon/track-icon.svg'
+import TrackOrdersIconActive from './src/assets/icon/track-icon-active.svg'
+import WalletIconInactive from './src/assets/icon/wallet-icon.svg'
+import WalletIconActive from './src/assets/icon/wallet-icon-active.svg'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -76,7 +81,7 @@ const HomeTab = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#ff9f1c',
+        activeTintColor: '#FF9F1C',
         style: {
           height: 70
         },
@@ -98,13 +103,16 @@ const HomeTab = () => {
           component={item.component}
           options={{
             tabBarLabel: item.label,
-            tabBarIcon: () => (
-              <item.icon
-                width={index === 3 ? 30 : 25}
-                height={index === 3 ? 30 : 25}
-                fill={'#ff9f1c'}
-              />
-            )
+            tabBarIcon: ({ focused }) => {
+              const Icon = focused ? item.icon.active : item.icon.inactive
+              const Size = index === 3 ? 28 : 22
+              return (
+                <Icon
+                  width={Size}
+                  height={Size}
+                />
+              )
+            }
           }}
         />
       ))}
@@ -117,31 +125,46 @@ const allTab = [
     name: 'HomeScreen',
     component: HomeScreen,
     label: 'Home',
-    icon: HomeIcon
+    icon: {
+      active: HomeIconActive,
+      inactive: HomeIconInactive
+    }
   },
   {
     name: 'OurBurgerScreen',
     component: OurBurgerScreen,
     label: 'Our Burgers',
-    icon: OurBurgerIcon
+    icon: {
+      active: OurBurgersIconActive,
+      inactive: OurBurgersIconInactive
+    }
   },
   {
     name: 'FavoriteScreen',
     component: FavoriteScreen,
-    label: 'Favorites',
-    icon: FavoriteIcon
+    label: 'Favourites',
+    icon: {
+      active: FavouritesIconActive,
+      inactive: FavouritesIconInactive
+    }
   },
   {
     name: 'TrackOrderScreen',
     component: TrackOrderScreen,
     label: 'Track Orders',
-    icon: TrackOrderIcon
+    icon: {
+      active: TrackOrdersIconActive,
+      inactive: TrackOrdersIconInactive
+    }
   },
   {
     name: 'WalletScreen',
     component: WalletScreen,
     label: 'Wallet',
-    icon: WalletIcon
+    icon: {
+      active: WalletIconActive,
+      inactive: WalletIconInactive
+    }
   }
 ]
 
