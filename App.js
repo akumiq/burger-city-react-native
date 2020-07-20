@@ -7,73 +7,107 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
+import { YellowBox, Dimensions } from 'react-native'
+import EStyleSheet from 'react-native-extended-stylesheet'
+
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { YellowBox } from 'react-native'
 import OnboardingScreen from './src/screen/onBoardingScreen'
 import LoginScreen from './src/screen/loginScreen'
 import ForgotPasswordScreen from './src/screen/forgotPasswordScreen'
 import SignUpScreen from './src/screen/signUpScreen'
+import TrolleyScreen from './src/screen/trolleyScreen'
+import BestOfferFoodScreen from './src/screen/bestOfferFoodScreen'
+
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+import reducers from './src/redux/reducer'
+
 import HomeScreen from './src/screen/homeScreen'
 import OurBurgerScreen from './src/screen/ourBurgerScreen'
 import FavoriteScreen from './src/screen/favoriteScreen'
 import TrackOrderScreen from './src/screen/trackOrderScreen'
 import WalletScreen from './src/screen/walletScreen'
 
-import HomeIconInactive from './src/assets/icon/home-icon.svg'
-import HomeIconActive from './src/assets/icon/home-icon-active.svg'
-import OurBurgersIconInactive from './src/assets/icon/our-burger-icon.svg'
-import OurBurgersIconActive from './src/assets/icon/our-burger-icon-active.svg'
-import FavouritesIconInactive from './src/assets/icon/star-icon.svg'
-import FavouritesIconActive from './src/assets/icon/star-icon-active.svg'
-import TrackOrdersIconInactive from './src/assets/icon/track-icon.svg'
-import TrackOrdersIconActive from './src/assets/icon/track-icon-active.svg'
-import WalletIconInactive from './src/assets/icon/wallet-icon.svg'
-import WalletIconActive from './src/assets/icon/wallet-icon-active.svg'
+import HomeIconInactive from './src/assets/icons/home-icon.svg'
+import HomeIconActive from './src/assets/icons/home-icon-active.svg'
+import OurBurgersIconInactive from './src/assets/icons/our-burger-icon.svg'
+import OurBurgersIconActive from './src/assets/icons/our-burger-icon-active.svg'
+import FavoriteIconInactive from './src/assets/icons/star-icon.svg'
+import FavoriteIconActive from './src/assets/icons/star-icon-active.svg'
+import TrackOrdersIconInactive from './src/assets/icons/track-icon.svg'
+import TrackOrdersIconActive from './src/assets/icons/track-icon-active.svg'
+import WalletIconInactive from './src/assets/icons/wallet-icon.svg'
+import WalletIconActive from './src/assets/icons/wallet-icon-active.svg'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
+const store = createStore(reducers)
+
 const App = () => {
   YellowBox.ignoreWarnings(['FlatList: Calling `getNode()`'])
+  const { width } = Dimensions.get('window')
+  EStyleSheet.build({
+    $rem: width / 320
+  })
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName='HomeTab'
-        screenOptions={{
-          headerShown: false,
-          ...TransitionPresets.SlideFromRightIOS
-        }}
-      >
-        <Stack.Screen
-          name='OnboardingScreen'
-          component={OnboardingScreen}
-        />
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName='HomeTab'
+          screenOptions={{
+            headerShown: false,
+            ...TransitionPresets.SlideFromRightIOS
+          }}
+        >
+          <Stack.Screen
+            name='OnboardingScreen'
+            component={OnboardingScreen}
+          />
 
-        <Stack.Screen
-          name='LoginScreen'
-          component={LoginScreen}
-        />
+          <Stack.Screen
+            name='LoginScreen'
+            component={LoginScreen}
+          />
 
-        <Stack.Screen
-          name='ForgotPasswordScreen'
-          component={ForgotPasswordScreen}
-        />
+          <Stack.Screen
+            name='ForgotPasswordScreen'
+            component={ForgotPasswordScreen}
+          />
 
-        <Stack.Screen
-          name='SignUpScreen'
-          component={SignUpScreen}
-        />
+          <Stack.Screen
+            name='SignUpScreen'
+            component={SignUpScreen}
+          />
 
-        <Stack.Screen
-          name='HomeTab'
-          component={HomeTab}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name='HomeTab'
+            component={HomeTab}
+          />
+
+          <Stack.Screen
+            name='FavoriteScreen'
+            component={FavoriteScreen}
+          />
+
+          <Stack.Screen
+            name='TrolleyScreen'
+            component={TrolleyScreen}
+          />
+
+          <Stack.Screen
+            name='BestOfferFoodScreen'
+            component={BestOfferFoodScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ Provider>
   )
 }
 
@@ -120,6 +154,10 @@ const HomeTab = () => {
   )
 }
 
+HomeTab.propTypes = {
+  focused: PropTypes.object
+}
+
 const allTab = [
   {
     name: 'HomeScreen',
@@ -142,10 +180,10 @@ const allTab = [
   {
     name: 'FavoriteScreen',
     component: FavoriteScreen,
-    label: 'Favourites',
+    label: 'Favorite',
     icon: {
-      active: FavouritesIconActive,
-      inactive: FavouritesIconInactive
+      active: FavoriteIconActive,
+      inactive: FavoriteIconInactive
     }
   },
   {

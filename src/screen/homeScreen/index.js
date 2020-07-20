@@ -1,31 +1,34 @@
 import React, { Component } from 'react'
 import {
-  View,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
   Text,
+  View,
+  StatusBar,
   Image,
   Dimensions,
   ImageBackground,
   ScrollView,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native'
+import PropTypes from 'prop-types'
+import EStyleSheet from 'react-native-extended-stylesheet'
+
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 
-import Feather from 'react-native-vector-icons/Feather'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import StarRating from 'react-native-star-rating/StarRating'
 
-import burgerLogo from '../../assets/icon/burger-logo.png'
-import logo from '../../assets/icon/logo.png'
-import sliderImage from '../../assets/image/slider-image.png'
 import ticketBg from '../../assets/image/ticket-background.png'
+import burgerLogo from '../../assets/icons/burger-logo.png'
 import offer1 from '../../assets/image/image.png'
 import offer2 from '../../assets/image/image-2.png'
 import offer3 from '../../assets/image/image-3.png'
 
-export default class HomeScreen extends Component {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import Header from '../../components/global/Header'
+
+class HomeScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -44,7 +47,7 @@ export default class HomeScreen extends Component {
         {this.renderStatusBar()}
         {this.renderHeader()}
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {this.renderSlider()}
           {this.renderOrder()}
           {this.renderBestOffer()}
@@ -65,43 +68,7 @@ export default class HomeScreen extends Component {
 
   renderHeader = () => {
     return (
-      <View style={styles['header']}>
-        <TouchableOpacity
-          onPress={() => {}}
-          style={styles['btn']}
-        >
-          <View style={styles['lang_btn']}>
-            <Text style={styles['text']}>
-              EN
-            </Text>
-
-            <Feather
-              name='chevron-down'
-              color='#ff9f1c'
-              size={20}
-              style={{ marginLeft: 2 }}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <View style={styles['logo']}>
-          <Image
-            source={logo}
-            resizeMode='contain'
-          />
-        </View>
-
-        <TouchableOpacity
-          onPress={() => {}}
-          style={styles['btn']}
-        >
-          <FontAwesome
-            name='shopping-cart'
-            color='#ff9f1c'
-            size={20}
-          />
-        </TouchableOpacity>
-      </View>
+      <Header onPressRightButton={() => this.props.navigation.navigate('TrolleyScreen')} onPress={() => {}}/>
     )
   }
 
@@ -116,34 +83,34 @@ export default class HomeScreen extends Component {
 
   renderCarousel = () => {
     const { width } = Dimensions.get('window')
+    const { banners } = this.props
 
     return (
       <Carousel
-        data={[0, 0, 0]}
+        data={banners}
         renderItem={this.renderCarouselItem}
         decelerationRate='fast'
         sliderWidth={width}
         itemWidth={width}
-        onSnapToItem={
-          index => this.setState({ activeSlide: index })
-        }
+        onSnapToItem={index => this.setState({ activeSlide: index })}
       />
     )
   }
 
-  renderCarouselItem = () => {
+  renderCarouselItem = ({ item }) => {
     return (
-      <View>
-        <Image
-          source={sliderImage}
+      <View style={styles['home__slider__wrapper']}>
+        <ImageBackground
+          source={{ uri: item.imageUrl }}
           resizeMode='cover'
-        />
-
-        <Text
-          style={styles['home__slider__text']}
+          style={styles['home__slider__image']}
         >
-          Worl`s Greatest Burgers.
-        </Text>
+          <View style={styles['home__slider__image__overlay']} />
+
+          <Text style={styles['home__slider__text']}>
+            {item.lead}
+          </Text>
+        </ImageBackground>
       </View>
     )
   }
@@ -153,19 +120,13 @@ export default class HomeScreen extends Component {
 
     return (
       <Pagination
-        dotsLength={3}
+        dotsLength={4}
         activeDotIndex={activeSlide}
-        dotStyle={
-          styles['home__pagination__dot']
-        }
-        dotContainerStyle={
-          styles['home__pagination__dot__container']
-        }
+        dotStyle={styles['home__pagination__dot']}
+        dotContainerStyle={styles['home__pagination_dot__container']}
         inactiveDotOpacity={0.5}
         inactiveDotScale={1}
-        containerStyle={
-          styles['home__pagination__container']
-        }
+        containerStyle={styles['home__pagination__container']}
       />
     )
   }
@@ -179,11 +140,12 @@ export default class HomeScreen extends Component {
     )
   }
 
-  renderOrderTicket = (title) => {
+  renderOrderTicket = (title = 'Custom Title') => {
     return (
       <ImageBackground
         source={ticketBg}
-        style={styles['home__order_ticket']}
+        resizeMode='cover'
+        style={styles['home__order__ticket']}
       >
         <View style={styles['home__order__ticket_content']}>
           <Image
@@ -227,8 +189,14 @@ export default class HomeScreen extends Component {
   }
 
   renderBestOfferItem = ({ item }) => {
+    const { navigation } = this.props
+
     return (
-      <View>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('BestOfferFoodScreen')
+        }}
+      >
         <Image
           source={item.image}
           resizeMode='contain'
@@ -239,6 +207,7 @@ export default class HomeScreen extends Component {
           <Text style={styles['home__best-offer__name']}>
             Beef Burger
           </Text>
+
           <Text style={styles['home__best-offer__price']}>
             $12
           </Text>
@@ -254,62 +223,95 @@ export default class HomeScreen extends Component {
           emptyStarColor='#cecece'
           containerStyle={styles['home__best-offer__rate']}
         />
-      </View>
+      </TouchableOpacity>
     )
   }
 }
 
-const styles = StyleSheet.create({
+const mapStateToProps = (state) => {
+  const { banners, bestOffer } = state.home
+  return { banners, bestOffer }
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({}, dispatch)
+)
+
+HomeScreen.propTypes = {
+  banners: PropTypes.array,
+  navigation: PropTypes.object
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+
+const styles = EStyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#ffffff'
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 30
+    marginTop: '24rem'
   },
   btn: {
-    paddingVertical: 15,
-    paddingHorizontal: 20
+    paddingVertical: '12rem',
+    paddingHorizontal: '16rem'
   },
   lang_btn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
+  logo: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   text: {
     fontFamily: 'Nunito-Bold',
-    fontSize: 18,
+    fontSize: '14rem',
     color: '#ff9f1c',
     includeFontPadding: false
   },
-  logo: {
+  home__slider__wrapper: {
+    // paddingHorizontal: '30rem'
+  },
+  home__slider__image: {
+    height: '210rem',
+    width: '100%'
+  },
+  home__slider__image__overlay: {
     position: 'absolute',
     top: 0,
     right: 0,
     bottom: 0,
     left: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
   },
   home__slider__text: {
     position: 'absolute',
-    top: 20,
-    left: 20,
-    width: 250,
+    top: '16rem',
+    left: '16rem',
+    width: '210rem',
     fontFamily: 'Nunito-Bold',
-    fontSize: 28,
-    color: '#ffffff'
+    fontSize: '23rem',
+    color: '#ffffff',
+    lineHeight: 35
+  },
+  home__pagination_dot__container: {
+    marginHorizontal: '2rem'
   },
   home__pagination__dot: {
-    width: 8,
-    height: 8,
+    width: '7rem',
+    height: '7rem',
     borderRadius: 4,
     backgroundColor: 'white'
-  },
-  home__pagination__dot__container: {
-    marginHorizontal: 2
   },
   home__pagination__container: {
     position: 'absolute',
@@ -318,77 +320,77 @@ const styles = StyleSheet.create({
     left: 0,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingVertical: 20,
-    paddingHorizontal: 20
+    paddingVertical: '16rem',
+    paddingHorizontal: '16rem'
   },
   home__order: {
-    marginTop: 8
+    marginTop: '7rem'
   },
-  home__order_ticket: {
-    marginHorizontal: 20,
-    marginTop: 18
+  home__order__ticket: {
+    marginHorizontal: '16rem',
+    marginTop: '14rem'
   },
   home__order__ticket_content: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 24,
-    paddingHorizontal: 40
+    paddingVertical: '16rem',
+    paddingHorizontal: '36rem'
   },
   home__order__ticket_desc: {
-    marginLeft: 20
+    marginLeft: '16rem'
   },
   home__order__title: {
     fontFamily: 'Nunito-Bold',
-    fontSize: 20,
+    fontSize: '16rem',
     color: '#ffffff',
     includeFontPadding: false
   },
   home__order__subtitle: {
-    fontFamily: 'Nunito-SemiBold',
-    fontSize: 12,
+    fontFamily: 'Nunito-Bold',
+    fontSize: '10rem',
     color: '#ffffff',
     includeFontPadding: false
   },
   'home__best-offer': {
-    marginTop: 25,
-    marginBottom: 25
+    marginTop: '21rem',
+    marginBottom: '21rem'
   },
   'home__best-offer__title': {
     fontFamily: 'Nunito-Bold',
-    fontSize: 18,
-    color: '#1d2126',
+    fontSize: '14rem',
+    color: '#1D2126',
     includeFontPadding: false,
-    paddingHorizontal: 20
+    paddingHorizontal: '16rem'
   },
   'home__best-offer__list': {
-    paddingHorizontal: 13,
-    marginTop: 15
+    paddingHorizontal: '10rem',
+    marginTop: '12rem'
   },
   'home__best-offer__image': {
-    marginHorizontal: 7
+    marginHorizontal: '6rem'
   },
   'home__best-offer__info': {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 15,
-    marginHorizontal: 10
+    marginTop: '12rem',
+    marginHorizontal: '8rem'
   },
   'home__best-offer__name': {
-    fontFamily: 'Nunito-Regular',
-    fontSize: 14,
+    fontFamily: 'Nunito-Reguler',
+    fontSize: '12rem',
     color: '#1d2126',
     includeFontPadding: false
   },
   'home__best-offer__price': {
     fontFamily: 'Nunito-Bold',
-    fontSize: 12,
+    fontSize: '10rem',
     color: '#ff9f1c',
     includeFontPadding: false
   },
   'home__best-offer__rate': {
-    marginTop: 5,
-    marginLeft: 10,
-    paddingRight: 60
+    marginLeft: '8rem',
+    marginTop: '4rem',
+    paddingRight: '48rem'
   }
 })

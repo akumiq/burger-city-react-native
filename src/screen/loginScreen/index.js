@@ -16,11 +16,11 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CheckBox from 'react-native-check-box'
 
-import InputBox from '../../component/inputBox'
-import CustomButton from '../../component/customButton'
+import InputBox from '../../components/global/InputBox'
+import CustomButton from '../../components/global/CustomButton'
 
 import bgImage from '../../assets/image/background-img.png'
-import burgerImg from '../../assets/icon/burger-logo.png'
+import burgerImg from '../../assets/icons/burger-logo.png'
 
 class LoginScreen extends Component {
   constructor (props) {

@@ -13,7 +13,7 @@ import {
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 
 import bgImage from '../../assets/image/background-img.png'
-import burgerImg from '../../assets/icon/burger-logo.png'
+import burgerImg from '../../assets/icons/burger-logo.png'
 
 class OnboardingScreen extends Component {
   constructor (props) {
