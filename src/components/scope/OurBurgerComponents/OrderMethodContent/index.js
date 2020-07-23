@@ -8,7 +8,7 @@ import { BaseStyle } from '../../../../constant'
 import { StandardButton, IconButton } from '../../../global/CustomButton'
 
 class OrderMethodComponent extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
       methods: [
@@ -28,7 +28,7 @@ class OrderMethodComponent extends Component {
     }
   }
 
-  render () {
+  render() {
     return (
       <View style={styles['content']}>
         {this.renderOrderMethod()}
@@ -38,89 +38,89 @@ class OrderMethodComponent extends Component {
     )
   }
 
-    renderOrderMethod = () => {
-      return (
-        <View style={styles['order-method']}>
-          <Text
-            style={[
-              BaseStyle['text'],
-              BaseStyle['text--3xl'],
-              BaseStyle['text-black'],
-              BaseStyle['text-bold']
-            ]}
-          >
-              Order Method
+  renderOrderMethod = () => {
+    return (
+      <View style={styles['order-method']}>
+        <Text
+          style={[
+            BaseStyle['text'],
+            BaseStyle['text--3xl'],
+            BaseStyle['text-black'],
+            BaseStyle['text-bold']
+          ]}
+        >
+          Order Method
           </Text>
 
-          <Text
-            style={[
-              BaseStyle['text'],
-              BaseStyle['text--l'],
-              BaseStyle['text-black'],
-              BaseStyle['text-semibold'],
-              { marginTop: 5 }
-            ]}
-          >
-              Please select your order method
+        <Text
+          style={[
+            BaseStyle['text'],
+            BaseStyle['text--l'],
+            BaseStyle['text-black'],
+            BaseStyle['text-semibold'],
+            { marginTop: 5 }
+          ]}
+        >
+          Please select your order method
           </Text>
-        </View>
-      )
-    }
+      </View>
+    )
+  }
 
-    renderMethodList = () => {
-      const { methods } = this.state
-      return (
-        <FlatList
-          data={methods}
-          keyExtractor={(item, index) => item + index.toString()}
-          style={styles['order-method__list']}
-          renderItem={({ item, index }) => {
-            const checkColor = item.isActive ? '#FF9F1C' : '#E3E5E8'
-            return (
-              <IconButton
-                titleButton={item.name}
-                iconRight={
-                  <MaterialCommunityIcons
-                    name='check-circle'
-                    color={checkColor}
-                    size={18}
-                  />
-                }
-                buttonStyle={{ marginTop: 20 }}
-                onPress={() => this.onPressMethod(index)}
-              />
-            )
-          }}
-        />
-      )
-    }
+  renderMethodList = () => {
+    const { methods } = this.state
+    return (
+      <FlatList
+        data={methods}
+        keyExtractor={(item, index) => item + index.toString()}
+        style={styles['order-method__list']}
+        renderItem={({ item, index }) => {
+          const checkColor = item.isActive ? '#FF9F1C' : '#E3E5E8'
+          return (
+            <IconButton
+              titleButton={item.name}
+              iconRight={
+                <MaterialCommunityIcons
+                  name='check-circle'
+                  color={checkColor}
+                  size={18}
+                />
+              }
+              buttonStyle={{ marginTop: 20 }}
+              onPress={() => this.onPressMethod(index)}
+            />
+          )
+        }}
+      />
+    )
+  }
 
-    onPressMethod = (index) => {
-      const { methods } = this.state
-      const newMethods = []
+  onPressMethod = (index) => {
+    const { methods } = this.state
+    const newMethods = []
 
-      methods.map((item, i) => {
-        newMethods.push(item)
+    methods.map((item, i) => {
+      newMethods.push(item)
 
-        if (index === i) {
-          newMethods[index].isActive = true
-        } else {
-          newMethods[i].isActive = false
-        }
-      })
-      this.setState({ methods: newMethods })
-    }
+      if (index === i) {
+        newMethods[index].isActive = true
+      } else {
+        newMethods[i].isActive = false
+      }
+    })
+    this.setState({ methods: newMethods })
+  }
 
-    renderProceedButton = () => {
-      const { onProceed } = this.props
-      return (
-        <StandardButton
-          titleButton='Proceed to Order'
-          buttonStyle={styles['proceed__button']}
-          onPress={onProceed}
-        />
-      )
-    }
+  renderProceedButton = () => {
+    const { onProceed } = this.props
+    return (
+      <StandardButton
+        titleButton='Proceed to Order'
+        buttonStyle={styles['proceed__button']}
+        onPress={onProceed}
+      />
+    )
+  }
 }
 
 OrderMethodComponent.propTypes = {

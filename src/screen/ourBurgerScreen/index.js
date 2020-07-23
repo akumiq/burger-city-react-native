@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 
 import Header from '../../components/global/Header'
 import OrderMethodContent from '../../components/scope/OurBurgerComponents/OrderMethodContent'
-// import DeliveryAddressContent from '../../components/scope/OurBurgerComponents/DeliveryAddressContent'
+import DeliveryAddressContent from '../../components/scope/OurBurgerComponents/DeliveryAddressContent'
 // import PickupDateTimeContent from '../../components/scope/OurBurgerComponents/PickupDateTimeContent'
 // import MenuContent from '../../components/scope/OurBurgerComponents/MenuContent'
 // import DishContent from '../../components/scope/OurBurgerComponents/DishContent'
@@ -63,7 +63,7 @@ class OurBurgerScreen extends Component {
       // <OrderMethodComponent />
       <Carousel
         ref={ ref => { this.content = ref }}
-        data={[0]}
+        data={[0, 1]}
         renderItem={this.renderSection}
         sliderHeight={height}
         sliderWidth={width}
@@ -88,12 +88,12 @@ class OurBurgerScreen extends Component {
             onProceed = {() => this.content.snapToNext()}
           />
         )
-      // case 1:
-      //   return (
-      //     <DeliveryAddressContent
-      //       onProceed={() => this.content.snapToNext()}
-      //     />
-      //   )
+      case 1:
+        return (
+          <DeliveryAddressContent
+            onProceed={() => this.content.snapToNext()}
+          />
+        )
       // case 2 :
       //   return (
       //     <PickupDateTimeContent
